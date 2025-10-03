@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СТО Level - Профессиональный ремонт и тюнинг автомобилей</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>СТО <span class="highlight">Level</span></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Главная</a></li>
+                <li><a href="#services" class="nav-link">Услуги</a></li>
+                <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+                <li><a href="#contact" class="nav-link">Контакты</a></li>
+                <li><a href="#cart" class="nav-link cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a></li>
+                <li><a href="#" class="nav-link" id="auth-btn">Вход</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">Добро пожаловать в <span class="highlight">СТО Level</span></h1>
+            <p class="hero-subtitle">Профессиональный ремонт и тюнинг вашего автомобиля</p>
+            <div class="hero-features">
+                <div class="feature-item">
+                    <i class="fas fa-wrench"></i>
+                    <span>Качественный ремонт</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-rocket"></i>
+                    <span>Профессиональный тюнинг</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Быстрое обслуживание</span>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="#services" class="btn btn-primary">Наши услуги</a>
+                <a href="#contact" class="btn btn-secondary">Записаться</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2 class="section-title">О нас</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>СТО Level - это команда профессионалов с многолетним опытом работы в сфере автосервиса. Мы специализируемся на качественном ремонте и профессиональном тюнинге автомобилей различных марок.</p>
+                    <p>Наше оборудование соответствует современным стандартам, а мастера постоянно повышают свою квалификацию. Мы гарантируем качество выполненных работ и индивидуальный подход к каждому клиенту.</p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check"></i> Опытные специалисты</li>
+                        <li><i class="fas fa-check"></i> Современное оборудование</li>
+                        <li><i class="fas fa-check"></i> Гарантия качества</li>
+                        <li><i class="fas fa-check"></i> Доступные цены</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop" alt="СТО Level">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="repair">Ремонт авто</button>
+                <button class="tab-btn" data-tab="tuning">Тюнинг</button>
+            </div>
+            
+            <div class="tab-content active" id="repair">
+                <div class="services-grid">
+                    <div class="service-card" data-service="brake-pads" data-price="3500">
+                        <div class="service-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Замена колодок</h3>
+                        <p>Замена тормозных колодок передних и задних</p>
+                        <div class="service-price">от 3,500₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card" data-service="suspension" data-price="8500">
+                        <div class="service-icon">
+                            <i class="fas fa-car-crash"></i>
+                        </div>
+                        <h3>Ремонт подвески</h3>
+                        <p>Диагностика и ремонт ходовой части</p>
+                        <div class="service-price">от 8,500₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card" data-service="engine-diagnostics" data-price="2500">
+                        <div class="service-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h3>Диагностика двигателя</h3>
+                        <p>Компьютерная диагностика всех систем</p>
+                        <div class="service-price">от 2,500₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card" data-service="oil-change" data-price="1800">
+                        <div class="service-icon">
+                            <i class="fas fa-oil-can"></i>
+                        </div>
+                        <h3>Замена масла</h3>
+                        <p>Замена моторного масла и фильтров</p>
+                        <div class="service-price">от 1,800₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card" data-service="tire-service" data-price="2000">
+                        <div class="service-icon">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <h3>Шиномонтаж</h3>
+                        <p>Замена и балансировка колес</p>
+                        <div class="service-price">от 2,000₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card" data-service="ac-service" data-price="3000">
+                        <div class="service-icon">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <h3>Обслуживание кондиционера</h3>
+                        <p>Заправка и ремонт кондиционера</p>
+                        <div class="service-price">от 3,000₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tuning">
+                <div class="services-grid">
+                    <div class="service-card tuning-card" data-service="stage1" data-price="35000">
+                        <div class="service-badge">Stage 1</div>
+                        <div class="service-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3>Базовый тюнинг</h3>
+                        <p>Чип-тюнинг, прирост до 30 л.с.</p>
+                        <ul class="tuning-features">
+                            <li><i class="fas fa-check"></i> Программная оптимизация</li>
+                            <li><i class="fas fa-check"></i> Улучшение динамики</li>
+                            <li><i class="fas fa-check"></i> Экономия топлива</li>
+                        </ul>
+                        <div class="service-price">от 35,000₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card tuning-card featured" data-service="stage2" data-price="75000">
+                        <div class="service-badge">Stage 2</div>
+                        <div class="popular-badge">Популярно</div>
+                        <div class="service-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Умеренный тюнинг</h3>
+                        <p>Чип-тюнинг + выхлопная система, прирост до 60 л.с.</p>
+                        <ul class="tuning-features">
+                            <li><i class="fas fa-check"></i> Stage 1 +</li>
+                            <li><i class="fas fa-check"></i> Спортивный выхлоп</li>
+                            <li><i class="fas fa-check"></i> Улучшенная турбина</li>
+                            <li><i class="fas fa-check"></i> Впускная система</li>
+                        </ul>
+                        <div class="service-price">от 75,000₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                    <div class="service-card tuning-card" data-service="stage3" data-price="150000">
+                        <div class="service-badge">Stage 3</div>
+                        <div class="service-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3>Максимальный тюнинг</h3>
+                        <p>Комплексная доработка, прирост до 150 л.с.</p>
+                        <ul class="tuning-features">
+                            <li><i class="fas fa-check"></i> Stage 2 +</li>
+                            <li><i class="fas fa-check"></i> Увеличенная турбина</li>
+                            <li><i class="fas fa-check"></i> Интеркулер</li>
+                            <li><i class="fas fa-check"></i> Усиленные форсунки</li>
+                            <li><i class="fas fa-check"></i> Спортивная подвеска</li>
+                        </ul>
+                        <div class="service-price">от 150,000₽</div>
+                        <button class="btn btn-add-cart">Добавить в корзину</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Галерея наших работ</h2>
+            <p class="section-subtitle">Автомобили, прошедшие тюнинг в СТО Level</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop" alt="BMW M3">
+                    <div class="gallery-overlay">
+                        <h3>BMW M3</h3>
+                        <p>Stage 2 • Чип-тюнинг, выхлоп, турбина</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&h=400&fit=crop" alt="Audi RS6">
+                    <div class="gallery-overlay">
+                        <h3>Audi RS6</h3>
+                        <p>Stage 3 • Полный тюнинг пакет</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=600&h=400&fit=crop" alt="Mercedes AMG">
+                    <div class="gallery-overlay">
+                        <h3>Mercedes AMG GT</h3>
+                        <p>Stage 2 • Чип-тюнинг, впуск, выхлоп</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&h=400&fit=crop" alt="Porsche 911">
+                    <div class="gallery-overlay">
+                        <h3>Porsche 911 Turbo</h3>
+                        <p>Stage 3 • Максимальная доработка</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&h=400&fit=crop" alt="Volkswagen Golf R">
+                    <div class="gallery-overlay">
+                        <h3>Volkswagen Golf R</h3>
+                        <p>Stage 1 • Базовый чип-тюнинг</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop" alt="Ford Mustang">
+                    <div class="gallery-overlay">
+                        <h3>Ford Mustang GT</h3>
+                        <p>Stage 2 • Суперчарджер, выхлоп</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+        <div class="container">
+            <h2 class="section-title">Отзывы клиентов</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"Отличный сервис! Сделали Stage 2 на мою BMW. Машина преобразилась, динамика стала просто невероятной. Ребята знают свое дело!"</p>
+                    <div class="review-author">
+                        <div class="author-avatar">АИ</div>
+                        <div>
+                            <h4>Алексей Иванов</h4>
+                            <p>BMW M3 • Stage 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"Обращался за ремонтом подвески. Все сделали быстро и качественно. Цены адекватные, мастера профессионалы. Буду обращаться еще!"</p>
+                    <div class="review-author">
+                        <div class="author-avatar">ДП</div>
+                        <div>
+                            <h4>Дмитрий Петров</h4>
+                            <p>Audi A6 • Ремонт подвески</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">"Лучшее СТО в городе! Делали чип-тюнинг на мой Golf R. Прирост мощности ощутим, расход даже немного снизился. Рекомендую всем!"</p>
+                    <div class="review-author">
+                        <div class="author-avatar">МС</div>
+                        <div>
+                            <h4>Максим Смирнов</h4>
+                            <p>VW Golf R • Stage 1</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-review">
+                <button class="btn btn-primary" id="add-review-btn">Оставить отзыв</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Контакты и запись</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Свяжитесь с нами</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Адрес</h4>
+                            <p>г. Москва, ул. Автомобильная, д. 25</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Телефон</h4>
+                            <p>+7 (495) 123-45-67</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@stolevel.ru</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Режим работы</h4>
+                            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contact-form">
+                        <h3>Запись на прием</h3>
+                        <div class="form-group">
+                            <input type="text" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Телефон" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Марка и модель автомобиля" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Опишите проблему или желаемую услугу" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Корзина услуг</h2>
+                <button class="close-modal" id="close-cart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <h3>Итого: <span id="cart-total-price">0</span>₽</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="clear-cart">Очистить корзину</button>
+                <button class="btn btn-primary" id="checkout-btn">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 id="auth-modal-title">Вход в личный кабинет</h2>
+                <button class="close-modal" id="close-auth">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-auth-tab="login">Вход</button>
+                    <button class="auth-tab" data-auth-tab="register">Регистрация</button>
+                </div>
+                
+                <!-- Login Form -->
+                <form class="auth-form active" id="login-form">
+                    <div class="form-group">
+                        <input type="email" id="login-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="login-password" placeholder="Пароль" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth-form" id="register-form">
+                    <div class="form-group">
+                        <input type="text" id="register-name" placeholder="ФИО" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="register-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="register-password" placeholder="Пароль" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="register-car-brand" placeholder="Марка автомобиля" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="register-car-model" placeholder="Модель автомобиля" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="register-car-year" placeholder="Год выпуска" min="1900" max="2025" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Личный кабинет</h2>
+                <button class="close-modal" id="close-profile">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info">
+                    <div class="profile-section">
+                        <h3>Личные данные</h3>
+                        <p><strong>ФИО:</strong> <span id="profile-name"></span></p>
+                        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                    </div>
+                    <div class="profile-section">
+                        <h3>Информация об автомобиле</h3>
+                        <p><strong>Марка:</strong> <span id="profile-car-brand"></span></p>
+                        <p><strong>Модель:</strong> <span id="profile-car-model"></span></p>
+                        <p><strong>Год выпуска:</strong> <span id="profile-car-year"></span></p>
+                    </div>
+                    <div class="profile-section">
+                        <h3>История услуг</h3>
+                        <div id="profile-service-history"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="logout-btn">Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal" id="review-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Оставить отзыв</h2>
+                <button class="close-modal" id="close-review">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="review-form" id="review-form">
+                    <div class="form-group">
+                        <label>Ваша оценка</label>
+                        <div class="rating-input" id="rating-input">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="review-name" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="review-car" placeholder="Автомобиль и услуга" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="review-text" placeholder="Текст отзыва" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-car"></i>
+                        <span>СТО <span class="highlight">Level</span></span>
+                    </div>
+                    <p>Профессиональный ремонт и тюнинг автомобилей</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#gallery">Галерея</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>г. Москва, ул. Автомобильная, д. 25</p>
+                    <p>+7 (495) 123-45-67</p>
+                    <p>info@stolevel.ru</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Социальные сети</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 СТО Level. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

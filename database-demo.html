@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>База данных СТО Level - Демонстрация</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #c1121f;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--light-gray);
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--medium-gray);
+        }
+
+        .section-title {
+            color: var(--primary-red);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        .badge-before {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .badge-after {
+            background-color: #51cf66;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background-color: var(--medium-gray);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: var(--primary-red);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        .highlight-row {
+            background-color: rgba(81, 207, 102, 0.15);
+        }
+
+        .highlight-row:hover {
+            background-color: rgba(81, 207, 102, 0.25);
+        }
+
+        .empty-row {
+            text-align: center;
+            color: var(--light-gray);
+            font-style: italic;
+        }
+
+        .schema-diagram {
+            background-color: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .table-box {
+            background-color: var(--dark-gray);
+            border: 2px solid var(--primary-red);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-name {
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 0.5rem;
+        }
+
+        .field {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .field:last-child {
+            border-bottom: none;
+        }
+
+        .field-name {
+            color: var(--white);
+        }
+
+        .field-type {
+            color: var(--light-gray);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .pk {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .fk {
+            color: #51cf66;
+        }
+
+        .legend {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .sql-code {
+            background-color: var(--black);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-red);
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .sql-code pre {
+            color: var(--light-gray);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .keyword {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #51cf66;
+        }
+
+        .number {
+            color: #ffc107;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-box {
+            background-color: var(--medium-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .comparison-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .note {
+            background-color: rgba(230, 57, 70, 0.1);
+            border-left: 4px solid var(--primary-red);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: var(--primary-red);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 База данных СТО Level</h1>
+        <p class="subtitle">Демонстрация структуры таблиц и данных до/после регистрации</p>
+
+        <!-- Database Schema -->
+        <div class="section">
+            <h2 class="section-title">🗄️ Структура базы данных</h2>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #ffc107;"></div>
+                    <span>PRIMARY KEY (PK)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #51cf66;"></div>
+                    <span>FOREIGN KEY (FK)</span>
+                </div>
+            </div>
+
+            <div class="schema-diagram">
+                <div class="table-box">
+                    <div class="table-name">👤 users (Пользователи)</div>
+                    <div class="field">
+                        <span class="field-name pk">🔑 id</span>
+                        <span class="field-type">INT PRIMARY KEY AUTO_INCREMENT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">name</span>
+                        <span class="field-type">VARCHAR(255) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">email</span>
+                        <span class="field-type">VARCHAR(255) UNIQUE NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">password</span>
+                        <span class="field-type">VARCHAR(255) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">car_brand</span>
+                        <span class="field-type">VARCHAR(100)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">car_model</span>
+                        <span class="field-type">VARCHAR(100)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">car_year</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+                    </div>
+                </div>
+
+                <div class="table-box">
+                    <div class="table-name">🛠️ services (Услуги)</div>
+                    <div class="field">
+                        <span class="field-name pk">🔑 id</span>
+                        <span class="field-type">INT PRIMARY KEY AUTO_INCREMENT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">service_name</span>
+                        <span class="field-type">VARCHAR(255) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">category</span>
+                        <span class="field-type">ENUM('repair', 'tuning') NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">price</span>
+                        <span class="field-type">DECIMAL(10,2) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">description</span>
+                        <span class="field-type">TEXT</span>
+                    </div>
+                </div>
+
+                <div class="table-box">
+                    <div class="table-name">📋 service_history (История услуг)</div>
+                    <div class="field">
+                        <span class="field-name pk">🔑 id</span>
+                        <span class="field-type">INT PRIMARY KEY AUTO_INCREMENT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name fk">🔗 user_id</span>
+                        <span class="field-type">INT NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name fk">🔗 service_id</span>
+                        <span class="field-type">INT NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">service_date</span>
+                        <span class="field-type">DATE NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">price_paid</span>
+                        <span class="field-type">DECIMAL(10,2) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">status</span>
+                        <span class="field-type">ENUM('pending', 'completed', 'cancelled')</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+                    </div>
+                </div>
+
+                <div class="table-box">
+                    <div class="table-name">⭐ reviews (Отзывы)</div>
+                    <div class="field">
+                        <span class="field-name pk">🔑 id</span>
+                        <span class="field-type">INT PRIMARY KEY AUTO_INCREMENT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name fk">🔗 user_id</span>
+                        <span class="field-type">INT</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">author_name</span>
+                        <span class="field-type">VARCHAR(255) NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">rating</span>
+                        <span class="field-type">INT CHECK(rating >= 1 AND rating <= 5)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">review_text</span>
+                        <span class="field-type">TEXT NOT NULL</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">car_info</span>
+                        <span class="field-type">VARCHAR(255)</span>
+                    </div>
+                    <div class="field">
+                        <span class="field-name">created_at</span>
+                        <span class="field-type">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table users - Before Registration -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>Таблица: users</span>
+                <span class="badge badge-before">ДО РЕГИСТРАЦИИ</span>
+            </h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО (name)</th>
+                        <th>Email</th>
+                        <th>Пароль (хеш)</th>
+                        <th>Марка авто</th>
+                        <th>Модель авто</th>
+                        <th>Год выпуска</th>
+                        <th>Дата регистрации</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="empty-row">
+                        <td colspan="8">Таблица пуста - пользователей нет</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note">
+                <strong>Примечание:</strong> Перед регистрацией первого пользователя таблица users пуста.
+            </div>
+        </div>
+
+        <!-- Table users - After Registration -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>Таблица: users</span>
+                <span class="badge badge-after">ПОСЛЕ РЕГИСТРАЦИИ</span>
+            </h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО (name)</th>
+                        <th>Email</th>
+                        <th>Пароль (хеш)</th>
+                        <th>Марка авто</th>
+                        <th>Модель авто</th>
+                        <th>Год выпуска</th>
+                        <th>Дата регистрации</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>1</td>
+                        <td>Иванов Алексей Петрович</td>
+                        <td>ivanov@mail.ru</td>
+                        <td>$2y$10$abc...</td>
+                        <td>BMW</td>
+                        <td>M3</td>
+                        <td>2020</td>
+                        <td>2025-10-03 14:30:22</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>2</td>
+                        <td>Петров Дмитрий Сергеевич</td>
+                        <td>petrov@gmail.com</td>
+                        <td>$2y$10$def...</td>
+                        <td>Audi</td>
+                        <td>A6</td>
+                        <td>2019</td>
+                        <td>2025-10-03 15:45:10</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>3</td>
+                        <td>Смирнов Максим Владимирович</td>
+                        <td>smirnov@yandex.ru</td>
+                        <td>$2y$10$ghi...</td>
+                        <td>Volkswagen</td>
+                        <td>Golf R</td>
+                        <td>2021</td>
+                        <td>2025-10-03 16:20:55</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note">
+                <strong>Примечание:</strong> После регистрации в таблицу добавляются новые записи с данными пользователей. Пароли хранятся в зашифрованном виде (хеш).
+            </div>
+        </div>
+
+        <!-- Table services -->
+        <div class="section">
+            <h2 class="section-title">Таблица: services (Услуги)</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название услуги</th>
+                        <th>Категория</th>
+                        <th>Цена (₽)</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Замена колодок</td>
+                        <td>repair</td>
+                        <td>3,500</td>
+                        <td>Замена тормозных колодок передних и задних</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Ремонт подвески</td>
+                        <td>repair</td>
+                        <td>8,500</td>
+                        <td>Диагностика и ремонт ходовой части</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Диагностика двигателя</td>
+                        <td>repair</td>
+                        <td>2,500</td>
+                        <td>Компьютерная диагностика всех систем</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Замена масла</td>
+                        <td>repair</td>
+                        <td>1,800</td>
+                        <td>Замена моторного масла и фильтров</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Шиномонтаж</td>
+                        <td>repair</td>
+                        <td>2,000</td>
+                        <td>Замена и балансировка колес</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Обслуживание кондиционера</td>
+                        <td>repair</td>
+                        <td>3,000</td>
+                        <td>Заправка и ремонт кондиционера</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Stage 1 - Базовый тюнинг</td>
+                        <td>tuning</td>
+                        <td>35,000</td>
+                        <td>Чип-тюнинг, прирост до 30 л.с.</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Stage 2 - Умеренный тюнинг</td>
+                        <td>tuning</td>
+                        <td>75,000</td>
+                        <td>Чип-тюнинг + выхлопная система, прирост до 60 л.с.</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Stage 3 - Максимальный тюнинг</td>
+                        <td>tuning</td>
+                        <td>150,000</td>
+                        <td>Комплексная доработка, прирост до 150 л.с.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table service_history - Before -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>Таблица: service_history</span>
+                <span class="badge badge-before">ДО РЕГИСТРАЦИИ</span>
+            </h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID пользователя</th>
+                        <th>ID услуги</th>
+                        <th>Дата оказания</th>
+                        <th>Цена</th>
+                        <th>Статус</th>
+                        <th>Создано</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="empty-row">
+                        <td colspan="7">История услуг пуста - заказов нет</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table service_history - After -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>Таблица: service_history</span>
+                <span class="badge badge-after">ПОСЛЕ РЕГИСТРАЦИИ И ЗАКАЗА</span>
+            </h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID пользователя</th>
+                        <th>ID услуги</th>
+                        <th>Дата оказания</th>
+                        <th>Цена (₽)</th>
+                        <th>Статус</th>
+                        <th>Создано</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>1</td>
+                        <td>1</td>
+                        <td>8</td>
+                        <td>2025-10-03</td>
+                        <td>75,000</td>
+                        <td>completed</td>
+                        <td>2025-10-03 14:35:00</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2025-10-03</td>
+                        <td>8,500</td>
+                        <td>completed</td>
+                        <td>2025-10-03 15:50:00</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>3</td>
+                        <td>3</td>
+                        <td>7</td>
+                        <td>2025-10-03</td>
+                        <td>35,000</td>
+                        <td>completed</td>
+                        <td>2025-10-03 16:25:00</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>4</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>2025-10-04</td>
+                        <td>3,500</td>
+                        <td>pending</td>
+                        <td>2025-10-04 10:15:00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note">
+                <strong>Примечание:</strong> После регистрации и оформления заказа в истории услуг появляются записи, связывающие пользователя с заказанными услугами.
+            </div>
+        </div>
+
+        <!-- SQL Scripts -->
+        <div class="section">
+            <h2 class="section-title">💻 SQL-скрипты создания таблиц</h2>
+            
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Таблица users</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">CREATE TABLE</span> users (
+    id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    name <span class="keyword">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NOT NULL</span>,
+    email <span class="keyword">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">UNIQUE NOT NULL</span>,
+    password <span class="keyword">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NOT NULL</span>,
+    car_brand <span class="keyword">VARCHAR</span>(<span class="number">100</span>),
+    car_model <span class="keyword">VARCHAR</span>(<span class="number">100</span>),
+    car_year <span class="keyword">INT</span>,
+    created_at <span class="keyword">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+);</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Таблица services</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">CREATE TABLE</span> services (
+    id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    service_name <span class="keyword">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NOT NULL</span>,
+    category <span class="keyword">ENUM</span>(<span class="string">'repair'</span>, <span class="string">'tuning'</span>) <span class="keyword">NOT NULL</span>,
+    price <span class="keyword">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,
+    description <span class="keyword">TEXT</span>
+);</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Таблица service_history</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">CREATE TABLE</span> service_history (
+    id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    user_id <span class="keyword">INT NOT NULL</span>,
+    service_id <span class="keyword">INT NOT NULL</span>,
+    service_date <span class="keyword">DATE NOT NULL</span>,
+    price_paid <span class="keyword">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) <span class="keyword">NOT NULL</span>,
+    status <span class="keyword">ENUM</span>(<span class="string">'pending'</span>, <span class="string">'completed'</span>, <span class="string">'cancelled'</span>) <span class="keyword">DEFAULT</span> <span class="string">'pending'</span>,
+    created_at <span class="keyword">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="keyword">FOREIGN KEY</span> (user_id) <span class="keyword">REFERENCES</span> users(id) <span class="keyword">ON DELETE CASCADE</span>,
+    <span class="keyword">FOREIGN KEY</span> (service_id) <span class="keyword">REFERENCES</span> services(id) <span class="keyword">ON DELETE CASCADE</span>
+);</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Таблица reviews</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">CREATE TABLE</span> reviews (
+    id <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,
+    user_id <span class="keyword">INT</span>,
+    author_name <span class="keyword">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NOT NULL</span>,
+    rating <span class="keyword">INT CHECK</span>(rating >= <span class="number">1</span> <span class="keyword">AND</span> rating <= <span class="number">5</span>),
+    review_text <span class="keyword">TEXT NOT NULL</span>,
+    car_info <span class="keyword">VARCHAR</span>(<span class="number">255</span>),
+    created_at <span class="keyword">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>,
+    <span class="keyword">FOREIGN KEY</span> (user_id) <span class="keyword">REFERENCES</span> users(id) <span class="keyword">ON DELETE SET NULL</span>
+);</pre>
+            </div>
+        </div>
+
+        <!-- Example Queries -->
+        <div class="section">
+            <h2 class="section-title">📝 Примеры SQL-запросов</h2>
+            
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Регистрация пользователя</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">INSERT INTO</span> users (name, email, password, car_brand, car_model, car_year)
+<span class="keyword">VALUES</span> (
+    <span class="string">'Иванов Алексей Петрович'</span>,
+    <span class="string">'ivanov@mail.ru'</span>,
+    <span class="string">'$2y$10$abc...'</span>,
+    <span class="string">'BMW'</span>,
+    <span class="string">'M3'</span>,
+    <span class="number">2020</span>
+);</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Добавление услуги в историю</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">INSERT INTO</span> service_history (user_id, service_id, service_date, price_paid, status)
+<span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="number">8</span>, <span class="string">'2025-10-03'</span>, <span class="number">75000.00</span>, <span class="string">'completed'</span>);</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Получение истории услуг пользователя</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">SELECT</span> 
+    u.name <span class="keyword">AS</span> user_name,
+    s.service_name,
+    sh.service_date,
+    sh.price_paid,
+    sh.status
+<span class="keyword">FROM</span> service_history sh
+<span class="keyword">JOIN</span> users u <span class="keyword">ON</span> sh.user_id = u.id
+<span class="keyword">JOIN</span> services s <span class="keyword">ON</span> sh.service_id = s.id
+<span class="keyword">WHERE</span> u.id = <span class="number">1</span>
+<span class="keyword">ORDER BY</span> sh.service_date <span class="keyword">DESC</span>;</pre>
+            </div>
+
+            <h3 style="color: var(--primary-red); margin-top: 2rem; margin-bottom: 1rem;">Статистика по пользователю</h3>
+            <div class="sql-code">
+                <pre><span class="keyword">SELECT</span> 
+    u.name,
+    u.email,
+    <span class="keyword">COUNT</span>(sh.id) <span class="keyword">AS</span> total_services,
+    <span class="keyword">SUM</span>(sh.price_paid) <span class="keyword">AS</span> total_spent
+<span class="keyword">FROM</span> users u
+<span class="keyword">LEFT JOIN</span> service_history sh <span class="keyword">ON</span> u.id = sh.user_id
+<span class="keyword">WHERE</span> u.id = <span class="number">1</span>
+<span class="keyword">GROUP BY</span> u.id;</pre>
+            </div>
+        </div>
+
+        <!-- Visual Comparison -->
+        <div class="section">
+            <h2 class="section-title">🔄 Визуальное сравнение данных</h2>
+            
+            <div class="comparison">
+                <div class="comparison-box">
+                    <h3 class="comparison-title">
+                        <span class="badge badge-before">ДО РЕГИСТРАЦИИ</span>
+                    </h3>
+                    <p style="color: var(--light-gray); text-align: center; margin-top: 2rem;">
+                        ❌ Пользователей: <strong>0</strong><br>
+                        ❌ Услуг в истории: <strong>0</strong><br>
+                        ❌ Доступ к личному кабинету: <strong>НЕТ</strong><br>
+                        ❌ Возможность заказа: <strong>НЕТ</strong>
+                    </p>
+                </div>
+                <div class="comparison-box">
+                    <h3 class="comparison-title">
+                        <span class="badge badge-after">ПОСЛЕ РЕГИСТРАЦИИ</span>
+                    </h3>
+                    <p style="color: var(--light-gray); text-align: center; margin-top: 2rem;">
+                        ✅ Пользователей: <strong style="color: var(--primary-red);">3</strong><br>
+                        ✅ Услуг в истории: <strong style="color: var(--primary-red);">4</strong><br>
+                        ✅ Доступ к личному кабинету: <strong style="color: #51cf66;">ДА</strong><br>
+                        ✅ Возможность заказа: <strong style="color: #51cf66;">ДА</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
