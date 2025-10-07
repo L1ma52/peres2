@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Структура БД - СТО Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #dc143c;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+
+        .db-schema {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .table-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #dc143c;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .table-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+            border-color: #ff1744;
+        }
+
+        .table-header {
+            background: #dc143c;
+            color: #fff;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-description {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .column {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border-left: 3px solid #666;
+        }
+
+        .column.primary-key {
+            border-left-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .column.foreign-key {
+            border-left-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .column-name {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .column-type {
+            color: #dc143c;
+            font-size: 0.9em;
+        }
+
+        .column-constraint {
+            color: #4CAF50;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .legend-color.pk {
+            background: #ffd700;
+        }
+
+        .legend-color.fk {
+            background: #4CAF50;
+        }
+
+        .legend-color.regular {
+            background: #666;
+        }
+
+        .relationships {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .relationships h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .relationship {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        .relationship-arrow {
+            color: #dc143c;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .db-schema {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗄️ Структура базы данных СТО Level</h1>
+        <p class="subtitle">Схема PostgreSQL для управления автосервисом</p>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color pk"></div>
+                <span>Первичный ключ (PK)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color fk"></div>
+                <span>Внешний ключ (FK)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color regular"></div>
+                <span>Обычное поле</span>
+            </div>
+        </div>
+
+        <div class="db-schema">
+            <!-- Таблица users -->
+            <div class="table-card">
+                <div class="table-header">👤 users</div>
+                <div class="table-description">Зарегистрированные пользователи системы</div>
+                <div class="column primary-key">
+                    <div class="column-name">id</div>
+                    <div class="column-type">SERIAL <span class="column-constraint">PRIMARY KEY</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">full_name</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">email</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">UNIQUE NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">password_hash</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">car_brand</div>
+                    <div class="column-type">VARCHAR(100)</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">car_model</div>
+                    <div class="column-type">VARCHAR(100)</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">car_year</div>
+                    <div class="column-type">INTEGER</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">created_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">updated_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+            </div>
+
+            <!-- Таблица services -->
+            <div class="table-card">
+                <div class="table-header">🔧 services</div>
+                <div class="table-description">Каталог услуг автосервиса</div>
+                <div class="column primary-key">
+                    <div class="column-name">id</div>
+                    <div class="column-type">SERIAL <span class="column-constraint">PRIMARY KEY</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">name</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">description</div>
+                    <div class="column-type">TEXT</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">price</div>
+                    <div class="column-type">DECIMAL(10, 2) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">category</div>
+                    <div class="column-type">VARCHAR(50) <span class="column-constraint">NOT NULL (repair/tuning)</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">stage</div>
+                    <div class="column-type">VARCHAR(20) <span class="column-constraint">для тюнинга</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">created_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">updated_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+            </div>
+
+            <!-- Таблица service_history -->
+            <div class="table-card">
+                <div class="table-header">📋 service_history</div>
+                <div class="table-description">История оказанных услуг</div>
+                <div class="column primary-key">
+                    <div class="column-name">id</div>
+                    <div class="column-type">SERIAL <span class="column-constraint">PRIMARY KEY</span></div>
+                </div>
+                <div class="column foreign-key">
+                    <div class="column-name">user_id</div>
+                    <div class="column-type">INTEGER <span class="column-constraint">FK → users(id)</span></div>
+                </div>
+                <div class="column foreign-key">
+                    <div class="column-name">service_id</div>
+                    <div class="column-type">INTEGER <span class="column-constraint">FK → services(id)</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">service_date</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">price</div>
+                    <div class="column-type">DECIMAL(10, 2) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">status</div>
+                    <div class="column-type">VARCHAR(50) <span class="column-constraint">pending/in_progress/completed/cancelled</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">notes</div>
+                    <div class="column-type">TEXT</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">created_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+            </div>
+
+            <!-- Таблица reviews -->
+            <div class="table-card">
+                <div class="table-header">⭐ reviews</div>
+                <div class="table-description">Отзывы клиентов</div>
+                <div class="column primary-key">
+                    <div class="column-name">id</div>
+                    <div class="column-type">SERIAL <span class="column-constraint">PRIMARY KEY</span></div>
+                </div>
+                <div class="column foreign-key">
+                    <div class="column-name">user_id</div>
+                    <div class="column-type">INTEGER <span class="column-constraint">FK → users(id) (optional)</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">full_name</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">rating</div>
+                    <div class="column-type">INTEGER <span class="column-constraint">1-5</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">comment</div>
+                    <div class="column-type">TEXT <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">created_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+            </div>
+
+            <!-- Таблица contact_requests -->
+            <div class="table-card">
+                <div class="table-header">✉️ contact_requests</div>
+                <div class="table-description">Заявки с формы обратной связи</div>
+                <div class="column primary-key">
+                    <div class="column-name">id</div>
+                    <div class="column-type">SERIAL <span class="column-constraint">PRIMARY KEY</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">name</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">email</div>
+                    <div class="column-type">VARCHAR(255) <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">phone</div>
+                    <div class="column-type">VARCHAR(50)</div>
+                </div>
+                <div class="column">
+                    <div class="column-name">message</div>
+                    <div class="column-type">TEXT <span class="column-constraint">NOT NULL</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">status</div>
+                    <div class="column-type">VARCHAR(50) <span class="column-constraint">new/in_progress/completed</span></div>
+                </div>
+                <div class="column">
+                    <div class="column-name">created_at</div>
+                    <div class="column-type">TIMESTAMP <span class="column-constraint">DEFAULT NOW()</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Связи между таблицами -->
+        <div class="relationships">
+            <h2>🔗 Связи между таблицами</h2>
+            <div class="relationship">
+                <strong>service_history.user_id</strong>
+                <span class="relationship-arrow">→</span>
+                <strong>users.id</strong>
+                <br>
+                <small>Связь: Каждая запись в истории услуг принадлежит пользователю (CASCADE DELETE)</small>
+            </div>
+            <div class="relationship">
+                <strong>service_history.service_id</strong>
+                <span class="relationship-arrow">→</span>
+                <strong>services.id</strong>
+                <br>
+                <small>Связь: Каждая запись в истории ссылается на услугу из каталога (CASCADE DELETE)</small>
+            </div>
+            <div class="relationship">
+                <strong>reviews.user_id</strong>
+                <span class="relationship-arrow">→</span>
+                <strong>users.id</strong>
+                <br>
+                <small>Связь: Отзыв может быть связан с пользователем (SET NULL при удалении)</small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
