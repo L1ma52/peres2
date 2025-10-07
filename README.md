@@ -244,14 +244,29 @@ sto-level/
 
 ## 📚 Документация
 
-Проект содержит несколько руководств для разных уровней:
+### 🏠 Локальная разработка
 
 - **🚀 [QUICK_START.md](QUICK_START.md)** - Быстрый старт за 5 минут (для новичков)
 - **🎨 [installation-guide.html](installation-guide.html)** - Интерактивный гид (откройте в браузере!)
 - **📖 [DATABASE_SETUP.md](DATABASE_SETUP.md)** - Подробная установка PostgreSQL
 - **🔧 [SETUP.md](SETUP.md)** - Полное руководство по установке
-- **📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Документация всех API endpoints
 - **🗄️ [database-demo.html](database-demo.html)** - Визуализация структуры БД (откройте в браузере!)
+
+### 🌐 Развертывание в интернете (Production)
+
+- **🚀 [deployment-guide.html](deployment-guide.html)** - Интерактивный гайд по деплою (НАЧНИТЕ ЗДЕСЬ!)
+- **📦 [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Полное руководство (Render + Vercel + Railway)
+- **🖥️ [VPS_DEPLOYMENT.md](VPS_DEPLOYMENT.md)** - Развертывание на собственном VPS сервере  
+- **🔧 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Решение проблем при деплое
+
+### 📡 API и разработка
+
+- **📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Документация всех API endpoints
+- **🧪 [test-api.sh](test-api.sh)** - Скрипт автоматического тестирования API
+
+### 📑 Визуальная навигация
+
+- **🎯 [INDEX.html](INDEX.html)** - Откройте в браузере для удобной навигации по всем гайдам!
 
 ## 🎯 Будущие улучшения
 
