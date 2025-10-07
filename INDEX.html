@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СТО Level - Документация проекта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: #dc143c;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.3em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #dc143c;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(220, 20, 60, 0.4);
+            border-color: #ff1744;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            color: #dc143c;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-top: 5px;
+        }
+
+        .card-badge.new {
+            background: #ff9800;
+        }
+
+        .card-badge.recommended {
+            background: #dc143c;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            display: inline-block;
+            background: #dc143c;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #ff1744;
+            transform: scale(1.05);
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: #dc143c;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #dc143c;
+            margin: 10px auto;
+        }
+
+        .quick-links {
+            background: rgba(220, 20, 60, 0.1);
+            border: 2px solid #dc143c;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .quick-links h2 {
+            color: #dc143c;
+            margin-bottom: 20px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links li {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        .quick-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .quick-links a:hover {
+            color: #66bb6a;
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .status-ready {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ff9800;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #333;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚗 СТО Level</h1>
+            <p class="subtitle">Документация проекта с базой данных PostgreSQL</p>
+            <div style="margin-top: 20px;">
+                <span class="status-badge status-ready">✅ Backend готов</span>
+                <span class="status-badge status-ready">✅ База данных готова</span>
+                <span class="status-badge status-ready">✅ API готово</span>
+                <span class="status-badge status-pending">⏳ Frontend в разработке</span>
+            </div>
+        </header>
+
+        <div class="quick-links">
+            <h2>⚡ Быстрый старт</h2>
+            <ul>
+                <li>🎯 <strong>Новичок?</strong> → Откройте <a href="QUICK_START.md">QUICK_START.md</a> или <a href="installation-guide.html">installation-guide.html</a></li>
+                <li>🗄️ <strong>Нужна помощь с PostgreSQL?</strong> → См. <a href="DATABASE_SETUP.md">DATABASE_SETUP.md</a></li>
+                <li>📡 <strong>Разрабатываете фронтенд?</strong> → См. <a href="API_DOCUMENTATION.md">API_DOCUMENTATION.md</a></li>
+                <li>👀 <strong>Хотите посмотреть структуру БД?</strong> → Откройте <a href="database-demo.html">database-demo.html</a></li>
+            </ul>
+        </div>
+
+        <!-- Для начинающих -->
+        <div class="section">
+            <h2 class="section-title">📚 Для начинающих</h2>
+            <div class="grid">
+                <div class="card" onclick="window.open('QUICK_START.md', '_blank')">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">Быстрый старт</div>
+                    <div class="card-description">
+                        Запустите проект за 5 минут! Пошаговая инструкция для всех операционных систем.
+                    </div>
+                    <span class="card-badge recommended">Рекомендуется</span>
+                    <span class="card-badge">5 минут</span>
+                    <br>
+                    <a href="QUICK_START.md" class="btn">Открыть</a>
+                </div>
+
+                <div class="card" onclick="window.open('installation-guide.html', '_blank')">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-title">Интерактивный гид</div>
+                    <div class="card-description">
+                        Красивый HTML-гид с вкладками для разных ОС. Откройте в браузере!
+                    </div>
+                    <span class="card-badge recommended">Очень удобно</span>
+                    <span class="card-badge">Визуальный</span>
+                    <br>
+                    <a href="installation-guide.html" class="btn">Открыть в браузере</a>
+                </div>
+
+                <div class="card" onclick="window.open('database-demo.html', '_blank')">
+                    <div class="card-icon">🗄️</div>
+                    <div class="card-title">Структура БД</div>
+                    <div class="card-description">
+                        Визуализация всех таблиц, полей и связей базы данных PostgreSQL.
+                    </div>
+                    <span class="card-badge">Интерактивно</span>
+                    <span class="card-badge">5 таблиц</span>
+                    <br>
+                    <a href="database-demo.html" class="btn">Посмотреть схему</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подробная документация -->
+        <div class="section">
+            <h2 class="section-title">📖 Подробная документация</h2>
+            <div class="grid">
+                <div class="card" onclick="window.open('DATABASE_SETUP.md', '_blank')">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-title">Установка PostgreSQL</div>
+                    <div class="card-description">
+                        Детальное руководство по установке и настройке PostgreSQL для Windows, macOS и Linux.
+                    </div>
+                    <span class="card-badge">Все ОС</span>
+                    <span class="card-badge">Troubleshooting</span>
+                    <br>
+                    <a href="DATABASE_SETUP.md" class="btn">Открыть</a>
+                </div>
+
+                <div class="card" onclick="window.open('SETUP.md', '_blank')">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">Полная установка</div>
+                    <div class="card-description">
+                        Полное руководство по установке всего проекта с нуля до запуска.
+                    </div>
+                    <span class="card-badge">Пошагово</span>
+                    <span class="card-badge">Команды</span>
+                    <br>
+                    <a href="SETUP.md" class="btn">Открыть</a>
+                </div>
+
+                <div class="card" onclick="window.open('API_DOCUMENTATION.md', '_blank')">
+                    <div class="card-icon">📡</div>
+                    <div class="card-title">API Документация</div>
+                    <div class="card-description">
+                        Полное описание всех API endpoints с примерами запросов и ответов.
+                    </div>
+                    <span class="card-badge">15+ endpoints</span>
+                    <span class="card-badge">Примеры</span>
+                    <br>
+                    <a href="API_DOCUMENTATION.md" class="btn">Открыть</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Технические файлы -->
+        <div class="section">
+            <h2 class="section-title">🔨 Технические файлы</h2>
+            <div class="grid">
+                <div class="card" onclick="window.open('database-schema.sql', '_blank')">
+                    <div class="card-icon">💾</div>
+                    <div class="card-title">SQL схема</div>
+                    <div class="card-description">
+                        Полный SQL-скрипт для создания всех таблиц, индексов и тестовых данных.
+                    </div>
+                    <span class="card-badge">PostgreSQL</span>
+                    <span class="card-badge">200+ строк</span>
+                    <br>
+                    <a href="database-schema.sql" class="btn">Открыть SQL</a>
+                </div>
+
+                <div class="card" onclick="window.open('test-api.sh', '_blank')">
+                    <div class="card-icon">🧪</div>
+                    <div class="card-title">Тест API</div>
+                    <div class="card-description">
+                        Bash-скрипт для автоматического тестирования всех API endpoints.
+                    </div>
+                    <span class="card-badge">Bash</span>
+                    <span class="card-badge">Автотест</span>
+                    <br>
+                    <a href="test-api.sh" class="btn">Открыть скрипт</a>
+                </div>
+
+                <div class="card" onclick="window.open('README.md', '_blank')">
+                    <div class="card-icon">📄</div>
+                    <div class="card-title">README</div>
+                    <div class="card-description">
+                        Основная документация проекта с описанием всех возможностей.
+                    </div>
+                    <span class="card-badge">Главный</span>
+                    <span class="card-badge">Обзор</span>
+                    <br>
+                    <a href="README.md" class="btn">Открыть README</a>
+                </div>
+
+                <div class="card" onclick="window.open('SUMMARY.md', '_blank')">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title">Сводка изменений</div>
+                    <div class="card-description">
+                        Полный список всех созданных файлов и изменений в проекте.
+                    </div>
+                    <span class="card-badge new">Новый</span>
+                    <span class="card-badge">Обзор</span>
+                    <br>
+                    <a href="SUMMARY.md" class="btn">Открыть</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="section">
+            <h2 class="section-title">🖥️ Backend код</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">Express сервер</div>
+                    <div class="card-description">
+                        Node.js + Express + PostgreSQL + JWT аутентификация
+                    </div>
+                    <span class="card-badge status-ready">Готово</span>
+                    <span class="card-badge">1000+ строк</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-title">Аутентификация</div>
+                    <div class="card-description">
+                        JWT токены, bcrypt хеширование, защищенные роуты
+                    </div>
+                    <span class="card-badge status-ready">Готово</span>
+                    <span class="card-badge">Безопасно</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🗂️</div>
+                    <div class="card-title">5 API модулей</div>
+                    <div class="card-description">
+                        auth, services, service-history, reviews, contact
+                    </div>
+                    <span class="card-badge status-ready">Готово</span>
+                    <span class="card-badge">REST API</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>СТО Level</strong> - Современный веб-сайт автосервиса</p>
+            <p style="margin-top: 10px;">
+                <a href="http://localhost:3000" style="color: #4CAF50;">🚀 Запустить проект</a> |
+                <a href="http://localhost:3000/api" style="color: #4CAF50;">📡 API</a> |
+                <a href="http://localhost:3000/api/health" style="color: #4CAF50;">🏥 Health Check</a>
+            </p>
+            <p style="margin-top: 15px; color: #666;">
+                © 2025 СТО Level. Backend с PostgreSQL готов! 🎉
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

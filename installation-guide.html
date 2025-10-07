@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гид по установке - СТО Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #dc143c;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #dc143c;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .tab:hover {
+            background: rgba(220, 20, 60, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: #dc143c;
+            font-weight: bold;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #dc143c;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #dc143c;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 1.5em;
+            color: #dc143c;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+
+        .code-block code {
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .command {
+            color: #4CAF50;
+        }
+
+        .comment {
+            color: #888;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: rgba(33, 150, 243, 0.1);
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .download-link {
+            display: inline-block;
+            background: #dc143c;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+
+        .download-link:hover {
+            background: #ff1744;
+            transform: scale(1.05);
+        }
+
+        .screenshot {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            border: 2px dashed #666;
+        }
+
+        .screenshot-text {
+            color: #888;
+            font-style: italic;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .tab {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Гид по установке СТО Level</h1>
+        <p class="subtitle">Пошаговая инструкция для создания базы данных PostgreSQL</p>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('pgadmin')">🖥️ pgAdmin (Просто)</div>
+            <div class="tab" onclick="showTab('windows')">🪟 Windows</div>
+            <div class="tab" onclick="showTab('macos')">🍎 macOS</div>
+            <div class="tab" onclick="showTab('linux')">🐧 Linux</div>
+        </div>
+
+        <!-- pgAdmin Tab -->
+        <div id="pgadmin" class="content active">
+            <div class="info">
+                <strong>⭐ РЕКОМЕНДУЕТСЯ ДЛЯ НОВИЧКОВ!</strong><br>
+                pgAdmin - это графический интерфейс для PostgreSQL. Не нужно знать команды!
+            </div>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Установите PostgreSQL</div>
+                    <div class="step-description">
+                        <strong>Windows:</strong>
+                        <a href="https://www.postgresql.org/download/windows/" class="download-link" target="_blank">
+                            📥 Скачать PostgreSQL для Windows
+                        </a>
+                        <ul>
+                            <li>Запустите установщик</li>
+                            <li><strong style="color: #ffc107;">⚠️ ВАЖНО: Запомните пароль для пользователя postgres!</strong></li>
+                            <li>Оставьте порт по умолчанию: 5432</li>
+                            <li>Убедитесь, что pgAdmin 4 тоже установлен (галочка в установщике)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Запустите pgAdmin 4</div>
+                    <div class="step-description">
+                        <ul>
+                            <li>Windows: Пуск → pgAdmin 4</li>
+                            <li>macOS: Applications → pgAdmin 4</li>
+                            <li>При первом запуске придумайте master password (любой)</li>
+                        </ul>
+                        <div class="screenshot">
+                            <div class="screenshot-text">📸 Откроется веб-интерфейс pgAdmin в браузере</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Подключитесь к серверу</div>
+                    <div class="step-description">
+                        <ul>
+                            <li>В левой панели раскройте <strong>Servers</strong></li>
+                            <li>Кликните на <strong>PostgreSQL 15</strong> (или другую версию)</li>
+                            <li>Введите пароль, который создали при установке</li>
+                            <li>Поставьте галочку "Save password"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Создайте базу данных</div>
+                    <div class="step-description">
+                        <ul>
+                            <li><strong>Правый клик</strong> на "Databases"</li>
+                            <li>Выберите <strong>Create → Database...</strong></li>
+                            <li>В поле "Database" введите: <code style="background: #000; padding: 3px 8px; border-radius: 3px;">stolevel</code></li>
+                            <li>Owner оставьте: postgres</li>
+                            <li>Нажмите <strong>Save</strong></li>
+                        </ul>
+                        <div class="success">✅ База данных stolevel создана!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Импортируйте таблицы</div>
+                    <div class="step-description">
+                        <ul>
+                            <li><strong>Кликните</strong> на базу данных <strong>stolevel</strong></li>
+                            <li>В верхнем меню: <strong>Tools → Query Tool</strong></li>
+                            <li>Нажмите <strong>📁 File → Open</strong></li>
+                            <li>Найдите и откройте файл <code>database-schema.sql</code> из вашего проекта</li>
+                            <li>Нажмите <strong>▶ Execute/Refresh</strong> или клавишу <strong>F5</strong></li>
+                        </ul>
+                        <div class="success">✅ Таблицы созданы и заполнены тестовыми данными!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">6</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Проверьте результат</div>
+                    <div class="step-description">
+                        В левой панели раскройте:
+                        <div class="code-block">
+                            <code>stolevel → Schemas → public → Tables</code>
+                        </div>
+                        Вы должны увидеть <strong>5 таблиц:</strong>
+                        <ul>
+                            <li>✅ contact_requests</li>
+                            <li>✅ reviews</li>
+                            <li>✅ service_history</li>
+                            <li>✅ services</li>
+                            <li>✅ users</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">7</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Настройте проект</div>
+                    <div class="step-description">
+                        Откройте терминал в папке проекта и выполните:
+                        <div class="code-block">
+                            <code><span class="comment"># Скопируйте пример конфигурации</span><br>
+                            <span class="command">cp .env.example .env</span></code>
+                        </div>
+                        Откройте файл <code>.env</code> в блокноте и укажите ваш пароль:
+                        <div class="code-block">
+                            <code>DB_PASSWORD=<span style="color: #ffc107;">ваш_пароль_postgres</span></code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">8</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Запустите сервер</div>
+                    <div class="step-description">
+                        <div class="code-block">
+                            <code><span class="command">npm install</span><br>
+                            <span class="command">npm start</span></code>
+                        </div>
+                        <div class="success">
+                            🎉 <strong>Готово!</strong> Откройте браузер: <a href="http://localhost:3000" style="color: #4CAF50;">http://localhost:3000</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows Tab -->
+        <div id="windows" class="content">
+            <div class="step">
+                <span class="step-number">1</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Откройте PowerShell или CMD</div>
+                    <div class="step-description">
+                        Нажмите <strong>Win + R</strong>, введите <code>cmd</code> или <code>powershell</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Перейдите в папку проекта</div>
+                    <div class="code-block">
+                        <code><span class="command">cd C:\путь\к\вашему\проекту\sto-level</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Создайте базу данных</div>
+                    <div class="code-block">
+                        <code><span class="command">createdb -U postgres stolevel</span><br>
+                        <span class="comment"># Введите пароль postgres когда попросит</span></code>
+                    </div>
+                    <div class="warning">
+                        Если команда не найдена, используйте полный путь:<br>
+                        <code style="background: #000; padding: 5px; display: block; margin-top: 5px;">
+                            "C:\Program Files\PostgreSQL\15\bin\createdb.exe" -U postgres stolevel
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Импортируйте схему</div>
+                    <div class="code-block">
+                        <code><span class="command">psql -U postgres -d stolevel -f database-schema.sql</span><br>
+                        <span class="comment"># Введите пароль postgres</span></code>
+                    </div>
+                    <div class="success">✅ База данных готова!</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Настройте и запустите</div>
+                    <div class="code-block">
+                        <code><span class="command">copy .env.example .env</span><br>
+                        <span class="comment"># Откройте .env в блокноте и укажите пароль</span><br><br>
+                        <span class="command">npm install</span><br>
+                        <span class="command">npm start</span></code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- macOS Tab -->
+        <div id="macos" class="content">
+            <div class="step">
+                <span class="step-number">1</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Откройте Terminal</div>
+                    <div class="step-description">
+                        Cmd + Space → введите "Terminal" → Enter
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Перейдите в папку проекта</div>
+                    <div class="code-block">
+                        <code><span class="command">cd /путь/к/вашему/проекту/sto-level</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Создайте базу данных</div>
+                    <div class="code-block">
+                        <code><span class="command">createdb stolevel</span></code>
+                    </div>
+                    <div class="info">
+                        Если используете Postgres.app, он автоматически создает пользователя с вашим именем без пароля.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Импортируйте схему</div>
+                    <div class="code-block">
+                        <code><span class="command">psql -d stolevel -f database-schema.sql</span></code>
+                    </div>
+                    <div class="success">✅ База данных готова!</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Настройте и запустите</div>
+                    <div class="code-block">
+                        <code><span class="command">cp .env.example .env</span><br>
+                        <span class="comment"># Откройте .env и настройте (обычно пароль не нужен)</span><br><br>
+                        <span class="command">npm install</span><br>
+                        <span class="command">npm start</span></code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linux Tab -->
+        <div id="linux" class="content">
+            <div class="step">
+                <span class="step-number">1</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Откройте Terminal</div>
+                    <div class="step-description">
+                        Ctrl + Alt + T или найдите Terminal в приложениях
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Перейдите в папку проекта</div>
+                    <div class="code-block">
+                        <code><span class="command">cd /путь/к/вашему/проекту/sto-level</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Создайте базу данных</div>
+                    <div class="code-block">
+                        <code><span class="command">sudo -u postgres createdb stolevel</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Импортируйте схему</div>
+                    <div class="code-block">
+                        <code><span class="command">sudo -u postgres psql -d stolevel -f database-schema.sql</span></code>
+                    </div>
+                    <div class="success">✅ База данных готова!</div>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <div style="display: inline-block; vertical-align: top; width: calc(100% - 60px);">
+                    <div class="step-title">Настройте и запустите</div>
+                    <div class="code-block">
+                        <code><span class="command">cp .env.example .env</span><br>
+                        <span class="comment"># Откройте .env (обычно пароль не нужен для локального подключения)</span><br><br>
+                        <span class="command">npm install</span><br>
+                        <span class="command">npm start</span></code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="success" style="text-align: center; margin-top: 30px; font-size: 1.2em;">
+            🎉 <strong>Поздравляем!</strong> База данных настроена и готова к работе!<br>
+            Теперь откройте <a href="http://localhost:3000" style="color: #4CAF50;">http://localhost:3000</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all content
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

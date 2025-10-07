@@ -68,39 +68,66 @@
 
 ## 🚀 Запуск проекта
 
+### ⚡ Быстрый старт (5 минут)
+
+**Смотрите файл `QUICK_START.md` - там все просто и пошагово!**
+
 ### Frontend (только HTML/CSS/JS)
 1. Просто откройте `index.html` в браузере
 2. Все данные будут храниться в localStorage браузера
 
 ### Backend (с подключением к БД)
-1. Установите зависимости:
+
+#### 1. Установите зависимости:
 ```bash
 npm install
 ```
 
-2. Настройте PostgreSQL и создайте базу данных:
+#### 2. Настройте PostgreSQL и создайте базу данных:
+
+**См. подробную инструкцию в `DATABASE_SETUP.md`**
+
+Краткая версия:
 ```bash
-createdb stolevel
-psql stolevel < database-schema.sql
+# Создайте БД
+createdb -U postgres stolevel
+
+# Импортируйте схему
+psql -U postgres -d stolevel -f database-schema.sql
 ```
 
-3. Создайте файл `.env` с настройками подключения:
+**Альтернатива:** Используйте pgAdmin 4 (графический интерфейс) - это проще!
+
+#### 3. Создайте файл `.env` с настройками:
+```bash
+cp .env.example .env
 ```
+
+Отредактируйте `.env`:
+```env
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=stolevel
 DB_USER=postgres
-DB_PASSWORD=your_password
+DB_PASSWORD=ваш_пароль_postgres
 PORT=3000
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=очень_секретный_ключ_123
+NODE_ENV=development
 ```
 
-4. Запустите сервер:
+#### 4. Запустите сервер:
 ```bash
 npm start
 ```
 
-5. Откройте `index.html` в браузере - фронтенд автоматически подключится к API
+#### 5. Откройте браузер:
+```
+http://localhost:3000
+```
+
+Фронтенд автоматически подключится к API!
+
+**Проверьте работу:** http://localhost:3000/api/health
 
 ## 💾 Хранение данных
 
@@ -145,19 +172,37 @@ npm start
 ```
 sto-level/
 │
-├── backend/
-│   ├── server.js           # Express сервер
-│   ├── db.js              # Подключение к БД
-│   ├── routes/            # API маршруты
-│   └── middleware/        # Middleware функции
+├── backend/                    # Backend код
+│   ├── server.js              # Express сервер
+│   ├── db.js                  # Подключение к БД
+│   ├── routes/                # API маршруты
+│   │   ├── auth.js           # Аутентификация
+│   │   ├── services.js       # Услуги
+│   │   ├── service-history.js # История
+│   │   ├── reviews.js        # Отзывы
+│   │   └── contact.js        # Контакты
+│   └── middleware/           # Middleware функции
+│       └── auth.js           # JWT аутентификация
 │
-├── index.html             # Основной HTML файл
-├── styles.css             # Стили
-├── script.js              # JavaScript функциональность
-├── database-demo.html     # Визуализация структуры БД
-├── database-schema.sql    # SQL-скрипты создания таблиц
-├── package.json           # Зависимости Node.js
-└── README.md             # Документация
+├── index.html                # Основной HTML файл
+├── styles.css                # Стили
+├── script.js                 # JavaScript функциональность
+│
+├── database-schema.sql       # SQL-скрипты создания таблиц
+├── database-demo.html        # Визуализация структуры БД
+│
+├── package.json              # Зависимости Node.js
+├── .env.example             # Пример конфигурации
+├── .gitignore               # Git ignore
+│
+├── README.md                # Основная документация (этот файл)
+├── QUICK_START.md           # ⚡ Быстрый старт за 5 минут
+├── DATABASE_SETUP.md        # 📚 Подробная установка PostgreSQL
+├── SETUP.md                 # 🔧 Полная установка проекта
+├── API_DOCUMENTATION.md     # 📖 Документация API
+├── installation-guide.html  # 🎨 Интерактивный гид (откройте в браузере!)
+│
+└── test-api.sh              # 🧪 Тестирование API
 ```
 
 ## 🗄️ База данных
@@ -197,9 +242,20 @@ sto-level/
 ### Контактные запросы
 - `POST /api/contact` - Отправить сообщение через форму обратной связи
 
+## 📚 Документация
+
+Проект содержит несколько руководств для разных уровней:
+
+- **🚀 [QUICK_START.md](QUICK_START.md)** - Быстрый старт за 5 минут (для новичков)
+- **🎨 [installation-guide.html](installation-guide.html)** - Интерактивный гид (откройте в браузере!)
+- **📖 [DATABASE_SETUP.md](DATABASE_SETUP.md)** - Подробная установка PostgreSQL
+- **🔧 [SETUP.md](SETUP.md)** - Полное руководство по установке
+- **📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Документация всех API endpoints
+- **🗄️ [database-demo.html](database-demo.html)** - Визуализация структуры БД (откройте в браузере!)
+
 ## 🎯 Будущие улучшения
 
-- Интеграция с реальным backend
+- ✅ Интеграция с реальным backend - **ГОТОВО!**
 - Система онлайн-бронирования
 - Онлайн-оплата
 - Email-уведомления
